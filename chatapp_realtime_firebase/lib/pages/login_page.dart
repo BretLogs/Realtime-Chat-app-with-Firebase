@@ -1,3 +1,4 @@
+import 'package:chatapp_realtime_firebase/widgets/custom_form_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: _buildUI(),
     );
   }
@@ -23,7 +25,11 @@ class _LoginPageState extends State<LoginPage> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         child: Column(
-          children: <Widget>[_headerText()],
+          children: <Widget>[
+            _headerText(),
+            _loginForm(),
+            _createAnAccountLink(),
+          ],
         ),
       ),
     );
@@ -50,6 +56,63 @@ class _LoginPageState extends State<LoginPage> {
               fontWeight: FontWeight.w500,
               color: Colors.grey,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _loginForm() {
+    return Container(
+      height: MediaQuery.sizeOf(context).height * 0.40,
+      margin: EdgeInsets.symmetric(
+        vertical: MediaQuery.sizeOf(context).height * 0.05,
+      ),
+      child: Form(
+          child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          CustomFormField(
+            hintText: 'Email',
+            height: MediaQuery.sizeOf(context).height * .1,
+          ),
+          CustomFormField(
+            hintText: 'Password',
+            height: MediaQuery.sizeOf(context).height * .1,
+          ),
+          _loginButton(),
+        ],
+      )),
+    );
+  }
+
+  Widget _loginButton() {
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width,
+      child: MaterialButton(
+        onPressed: () {},
+        color: Theme.of(context).colorScheme.primary,
+        child: const Text(
+          'Login',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  Widget _createAnAccountLink() {
+    return const Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Text("Don't have an account? "),
+          Text(
+            'Sign up',
+            style: TextStyle(fontWeight: FontWeight.w800),
           )
         ],
       ),
