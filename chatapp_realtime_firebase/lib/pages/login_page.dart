@@ -1,3 +1,4 @@
+import 'package:chatapp_realtime_firebase/consts.dart';
 import 'package:chatapp_realtime_firebase/widgets/custom_form_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -12,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _loginFormKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,22 +71,25 @@ class _LoginPageState extends State<LoginPage> {
         vertical: MediaQuery.sizeOf(context).height * 0.05,
       ),
       child: Form(
+          key: _loginFormKey,
           child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          CustomFormField(
-            hintText: 'Email',
-            height: MediaQuery.sizeOf(context).height * .1,
-          ),
-          CustomFormField(
-            hintText: 'Password',
-            height: MediaQuery.sizeOf(context).height * .1,
-          ),
-          _loginButton(),
-        ],
-      )),
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              CustomFormField(
+                hintText: 'Email',
+                height: MediaQuery.sizeOf(context).height * .1,
+                validationRegExp: EMAIL_VALIDATION_REGEX,
+              ),
+              CustomFormField(
+                hintText: 'Password',
+                height: MediaQuery.sizeOf(context).height * .1,
+                validationRegExp: PASSWORD_VALIDATION_REGEX,
+              ),
+              _loginButton(),
+            ],
+          )),
     );
   }
 
@@ -92,7 +97,9 @@ class _LoginPageState extends State<LoginPage> {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width,
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          if (_loginFormKey.currentState?.validate() ?? false) {}
+        },
         color: Theme.of(context).colorScheme.primary,
         child: const Text(
           'Login',
