@@ -21,4 +21,12 @@ class AuthService {
     }
     return false;
   }
+
+  void authStateChangesStreamListener(User? user) {
+    if (user != null) {
+      _user = user;
+    } else {
+      _user = null;
+    }
+  }
 }
