@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         textTheme: GoogleFonts.montserratTextTheme(),
       ),
-      home: const LoginPage(),
+      initialRoute: '/login',
+      routes: _navigationServices.routes,
     );
   }
 }
