@@ -4,6 +4,7 @@ import 'package:chatapp_realtime_firebase/services/auth_service.dart';
 import 'package:chatapp_realtime_firebase/services/navigation_services.dart';
 import 'package:chatapp_realtime_firebase/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 
 class LoginPage extends StatefulWidget {
@@ -149,16 +150,21 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _createAnAccountLink() {
-    return const Expanded(
+    return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          Text("Don't have an account? "),
-          Text(
-            'Sign up',
-            style: TextStyle(fontWeight: FontWeight.w800),
+          const Text("Don't have an account? "),
+          GestureDetector(
+            onTap: () {
+              _navigationServices.pushNamed('/register');
+            },
+            child: const Text(
+              'Sign up',
+              style: TextStyle(fontWeight: FontWeight.w800),
+            ),
           )
         ],
       ),
