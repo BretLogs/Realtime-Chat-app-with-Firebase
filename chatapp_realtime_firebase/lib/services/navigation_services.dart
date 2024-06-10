@@ -1,5 +1,6 @@
 import 'package:chatapp_realtime_firebase/pages/home_page.dart';
 import 'package:chatapp_realtime_firebase/pages/login_page.dart';
+import 'package:chatapp_realtime_firebase/pages/register_page.dart';
 import 'package:flutter/material.dart';
 
 class NavigationServices {
@@ -14,6 +15,7 @@ class NavigationServices {
 
   final Map<String, Widget Function(BuildContext)> _routes = <String, Widget Function(BuildContext p1)>{
     '/login': (BuildContext context) => const LoginPage(),
+    '/register': (BuildContext context) => const RegisterPage(),
     '/home': (BuildContext context) => const HomePage(),
   };
   GlobalKey<NavigatorState>? get navigatorKey {
