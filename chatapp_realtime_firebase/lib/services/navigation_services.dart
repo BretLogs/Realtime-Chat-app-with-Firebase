@@ -14,7 +14,7 @@ class NavigationServices {
 
   final Map<String, Widget Function(BuildContext)> _routes = <String, Widget Function(BuildContext p1)>{
     '/login': (BuildContext context) => const LoginPage(),
-    '/login': (BuildContext context) => const HomePage(),
+    '/home': (BuildContext context) => const HomePage(),
   };
   GlobalKey<NavigatorState>? get navigatorKey {
     return _navigatorKey;
