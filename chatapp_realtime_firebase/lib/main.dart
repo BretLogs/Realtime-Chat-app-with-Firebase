@@ -1,4 +1,5 @@
 import 'package:chatapp_realtime_firebase/pages/login_page.dart';
+import 'package:chatapp_realtime_firebase/services/auth_service.dart';
 import 'package:chatapp_realtime_firebase/services/navigation_services.dart';
 import 'package:chatapp_realtime_firebase/utils.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -20,9 +21,11 @@ Future<void> setup() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key}) {
     _navigationServices = _getIt.get<NavigationServices>();
+    _authService = _getIt.get<AuthService>();
   }
   final GetIt _getIt = GetIt.instance;
   late NavigationServices _navigationServices;
+  late AuthService _authService;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         textTheme: GoogleFonts.montserratTextTheme(),
       ),
-      initialRoute: '/login',
+      initialRoute: _authService.user != null ? '/home' : '/login',
       routes: _navigationServices.routes,
     );
   }

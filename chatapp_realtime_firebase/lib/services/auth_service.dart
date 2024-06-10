@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  AuthService();
+  AuthService() {
+    _firebaseAuth.authStateChanges().listen(authStateChangesStreamListener);
+  }
   User? _user;
   User? get user {
     return _user;

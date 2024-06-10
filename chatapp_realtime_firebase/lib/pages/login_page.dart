@@ -1,10 +1,8 @@
 import 'package:chatapp_realtime_firebase/consts.dart';
 import 'package:chatapp_realtime_firebase/services/auth_service.dart';
+import 'package:chatapp_realtime_firebase/services/navigation_services.dart';
 import 'package:chatapp_realtime_firebase/widgets/custom_form_field.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,11 +17,13 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey();
 
   late AuthService _authService;
+  late NavigationServices _navigationServices;
 
   @override
   void initState() {
     super.initState();
     _authService = _getIt.get<AuthService>();
+    _navigationServices = _getIt.get<NavigationServices>();
   }
 
   String? email, password;
@@ -127,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
             _loginFormKey.currentState?.save();
             bool result = await _authService.login(email!, password!);
             if (result) {
+              _navigationServices.pushReplacementNamed('/home');
             } else {}
           }
         },
