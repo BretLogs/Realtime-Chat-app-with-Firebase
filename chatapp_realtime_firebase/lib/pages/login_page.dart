@@ -1,4 +1,5 @@
 import 'package:chatapp_realtime_firebase/consts.dart';
+import 'package:chatapp_realtime_firebase/services/alert_service.dart';
 import 'package:chatapp_realtime_firebase/services/auth_service.dart';
 import 'package:chatapp_realtime_firebase/services/navigation_services.dart';
 import 'package:chatapp_realtime_firebase/widgets/custom_form_field.dart';
@@ -18,12 +19,14 @@ class _LoginPageState extends State<LoginPage> {
 
   late AuthService _authService;
   late NavigationServices _navigationServices;
+  late AlertService _alertService;
 
   @override
   void initState() {
     super.initState();
     _authService = _getIt.get<AuthService>();
     _navigationServices = _getIt.get<NavigationServices>();
+    _alertService = _getIt.get<AlertService>();
   }
 
   String? email, password;
@@ -128,7 +131,12 @@ class _LoginPageState extends State<LoginPage> {
             bool result = await _authService.login(email!, password!);
             if (result) {
               _navigationServices.pushReplacementNamed('/home');
-            } else {}
+            } else {
+              _alertService.showToast(
+                text: 'Failed to Login, Please Try Again',
+                icon: Icons.error,
+              );
+            }
           }
         },
         color: Theme.of(context).colorScheme.primary,
