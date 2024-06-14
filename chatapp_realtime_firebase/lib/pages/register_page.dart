@@ -154,7 +154,11 @@ class _RegisterPageState extends State<RegisterPage> {
       child: MaterialButton(
         color: Theme.of(context).colorScheme.primary,
         onPressed: () {
-          try {} catch (e) {
+          try {
+            if ((_registerFormKey.currentState?.validate() ?? false) && selectedImage != null) {
+              _registerFormKey.currentState?.save();
+            }
+          } catch (e) {
             print(e);
           }
         },
