@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chatapp_realtime_firebase/consts.dart';
+import 'package:chatapp_realtime_firebase/services/auth_service.dart';
 import 'package:chatapp_realtime_firebase/services/media_service.dart';
 import 'package:chatapp_realtime_firebase/services/navigation_services.dart';
 import 'package:chatapp_realtime_firebase/widgets/custom_form_field.dart';
@@ -20,14 +21,17 @@ class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _registerFormKey = GlobalKey();
   late MediaService _mediaService;
   late NavigationServices _navigationServices;
+  late AuthService _authService;
   File? selectedImage;
   String? email, password, name;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _mediaService = _getIt.get<MediaService>();
     _navigationServices = _getIt.get<NavigationServices>();
+    _authService = _getIt.get<AuthService>();
   }
 
   @override
@@ -45,8 +49,13 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           children: <Widget>[
             _headerText(),
-            _registerForm(),
-            _loginAccountLink(),
+            if (!isLoading) _registerForm(),
+            if (!isLoading) _loginAccountLink(),
+            if (isLoading)
+              const Expanded(
+                  child: Center(
+                child: CircularProgressIndicator(),
+              ))
           ],
         ),
       ),
@@ -153,14 +162,24 @@ class _RegisterPageState extends State<RegisterPage> {
       width: MediaQuery.sizeOf(context).width,
       child: MaterialButton(
         color: Theme.of(context).colorScheme.primary,
-        onPressed: () {
+        onPressed: () async {
+          setState(() {
+            isLoading = true;
+          });
           try {
             if ((_registerFormKey.currentState?.validate() ?? false) && selectedImage != null) {
               _registerFormKey.currentState?.save();
+              bool result = await _authService.signup(email!, password!);
+              if (result) {}
+              print(result);
             }
           } catch (e) {
             print(e);
           }
+          setState(() {
+            isLoading = false;
+            selectedImage = null;
+          });
         },
         child: const Text(
           'Register',
