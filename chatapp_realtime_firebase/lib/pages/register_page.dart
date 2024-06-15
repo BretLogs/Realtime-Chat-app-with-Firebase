@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:chatapp_realtime_firebase/consts.dart';
+import 'package:chatapp_realtime_firebase/models/user_profile.dart';
+import 'package:chatapp_realtime_firebase/services/alert_service.dart';
 import 'package:chatapp_realtime_firebase/services/auth_service.dart';
+import 'package:chatapp_realtime_firebase/services/database_service.dart';
 import 'package:chatapp_realtime_firebase/services/media_service.dart';
 import 'package:chatapp_realtime_firebase/services/navigation_services.dart';
 import 'package:chatapp_realtime_firebase/services/storage_service.dart';
@@ -24,6 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
   late NavigationServices _navigationServices;
   late AuthService _authService;
   late StorageService _storageService;
+  late DatabaseService _databaseService;
+  late AlertService _alertService;
   File? selectedImage;
   String? email, password, name;
   bool isLoading = false;
@@ -35,6 +40,8 @@ class _RegisterPageState extends State<RegisterPage> {
     _navigationServices = _getIt.get<NavigationServices>();
     _authService = _getIt.get<AuthService>();
     _storageService = _getIt.get<StorageService>();
+    _databaseService = _getIt.get<DatabaseService>();
+    _alertService = _getIt.get<AlertService>();
   }
 
   @override
@@ -178,11 +185,32 @@ class _RegisterPageState extends State<RegisterPage> {
                   file: selectedImage!,
                   uid: _authService.user!.uid,
                 );
+                if (pfpUrl != null) {
+                  await _databaseService.createUserProfile(
+                    userProfile: UserProfile(
+                      uid: _authService.user!.uid,
+                      name: name,
+                      pfpURL: pfpUrl,
+                    ),
+                  );
+                  _alertService.showToast(
+                    text: 'User Registered Successfully',
+                    icon: Icons.check,
+                  );
+                  _navigationServices.goBack();
+                  _navigationServices.pushReplacementNamed('/home');
+                } else {
+                  throw Exception('Unable to upload user profile picture');
+                }
+              } else {
+                throw Exception('Unable to register user');
               }
-              print(result);
             }
           } catch (e) {
-            print(e);
+            _alertService.showToast(
+              text: 'Failed to register, Please try Again!',
+              icon: Icons.check,
+            );
           }
           setState(() {
             isLoading = false;

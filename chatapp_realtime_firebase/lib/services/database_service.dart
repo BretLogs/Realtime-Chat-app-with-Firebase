@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:chatapp_realtime_firebase/models/user_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
