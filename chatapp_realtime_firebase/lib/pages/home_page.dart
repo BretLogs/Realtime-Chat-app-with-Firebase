@@ -75,11 +75,11 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.hasData && snapshot.data != null) {
           final List<QueryDocumentSnapshot<UserProfile>> users = snapshot.data!.docs;
           return ListView.builder(
-            itemCount: users.length
-            ,itemBuilder: (BuildContext context, int index) {
-              UserProfile
-              return ChatTile(userProfile: userProfile, onTap: onTap)
-          });
+              itemCount: users.length,
+              itemBuilder: (BuildContext context, int index) {
+                UserProfile user = users[index].data();
+                return ChatTile(userProfile: user, onTap: () {});
+              });
         }
         return const Center(
           child: CircularProgressIndicator(),
