@@ -44,6 +44,18 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      body: _buildUi(),
     );
+  }
+
+  Widget _buildUi() {
+    return const SafeArea(
+        child: Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 20,
+      ),
+      child: _chatsList(),
+    ));
   }
 }
