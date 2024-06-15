@@ -4,6 +4,7 @@ import 'package:chatapp_realtime_firebase/consts.dart';
 import 'package:chatapp_realtime_firebase/services/auth_service.dart';
 import 'package:chatapp_realtime_firebase/services/media_service.dart';
 import 'package:chatapp_realtime_firebase/services/navigation_services.dart';
+import 'package:chatapp_realtime_firebase/services/storage_service.dart';
 import 'package:chatapp_realtime_firebase/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late MediaService _mediaService;
   late NavigationServices _navigationServices;
   late AuthService _authService;
+  late StorageService _storageService;
   File? selectedImage;
   String? email, password, name;
   bool isLoading = false;
@@ -32,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _mediaService = _getIt.get<MediaService>();
     _navigationServices = _getIt.get<NavigationServices>();
     _authService = _getIt.get<AuthService>();
+    _storageService = _getIt.get<StorageService>();
   }
 
   @override
@@ -170,7 +173,12 @@ class _RegisterPageState extends State<RegisterPage> {
             if ((_registerFormKey.currentState?.validate() ?? false) && selectedImage != null) {
               _registerFormKey.currentState?.save();
               bool result = await _authService.signup(email!, password!);
-              if (result) {}
+              if (result) {
+                String? pfpUrl = await _storageService.uploadUserPfp(
+                  file: selectedImage!,
+                  uid: _authService.user!.uid,
+                );
+              }
               print(result);
             }
           } catch (e) {
