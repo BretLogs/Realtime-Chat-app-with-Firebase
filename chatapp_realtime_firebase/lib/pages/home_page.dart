@@ -3,6 +3,7 @@ import 'package:chatapp_realtime_firebase/services/alert_service.dart';
 import 'package:chatapp_realtime_firebase/services/auth_service.dart';
 import 'package:chatapp_realtime_firebase/services/database_service.dart';
 import 'package:chatapp_realtime_firebase/services/navigation_services.dart';
+import 'package:chatapp_realtime_firebase/widgets/chat_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -72,7 +73,13 @@ class _HomePageState extends State<HomePage> {
           return const Center(child: Text('Unable to load Data'));
         }
         if (snapshot.hasData && snapshot.data != null) {
-          return ListView();
+          final List<QueryDocumentSnapshot<UserProfile>> users = snapshot.data!.docs;
+          return ListView.builder(
+            itemCount: users.length
+            ,itemBuilder: (BuildContext context, int index) {
+              UserProfile
+              return ChatTile(userProfile: userProfile, onTap: onTap)
+          });
         }
         return const Center(
           child: CircularProgressIndicator(),
