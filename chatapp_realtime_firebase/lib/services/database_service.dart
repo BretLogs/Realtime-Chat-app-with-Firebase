@@ -1,4 +1,5 @@
 import 'package:chatapp_realtime_firebase/models/chat.dart';
+import 'package:chatapp_realtime_firebase/models/message.dart';
 import 'package:chatapp_realtime_firebase/models/user_profile.dart';
 import 'package:chatapp_realtime_firebase/services/auth_service.dart';
 import 'package:chatapp_realtime_firebase/utils.dart';
@@ -42,5 +43,12 @@ class DatabaseService {
       return result.exists;
     }
     return false;
+  }
+
+  Future<void> createNewChat(String uid1, String uid2) async {
+    String chatID = generateChatID(uid1: uid1, uid2: uid2);
+    final DocumentReference<Object?> docRef = _chatsCollection!.doc(chatID);
+    final Chat chat = Chat(id: chatID, participants: <String>[uid1, uid2], messages: <Message>[]);
+    await docRef.set(chat);
   }
 }
