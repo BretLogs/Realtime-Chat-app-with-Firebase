@@ -38,13 +38,13 @@ dependencies:
   firebase_auth: ^4.20.0
   cloud_firestore: ^4.17.5
   firebase_storage: ^11.7.7
-  dash_chat: ^1.1.16
   firebase_analytics: ^10.10.7
   google_fonts: ^6.2.1
   delightful_toast: ^1.1.0
   get_it: ^7.7.0
   image_picker: ^1.1.2
   path: ^1.9.0
+  dash_chat_2: ^0.0.21
 
 dev_dependencies:
   flutter_test:
