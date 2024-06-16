@@ -33,3 +33,10 @@ Future<void> registerServices() async {
     DatabaseService(),
   );
 }
+
+String generateChatID({required String uid1, required String uid2}) {
+  List<String> uids = <String>[uid1, uid2];
+  uids.sort();
+  String chatID = uids.fold('', (String id, dynamic uid) => '$id$uid');
+  return chatID;
+}
