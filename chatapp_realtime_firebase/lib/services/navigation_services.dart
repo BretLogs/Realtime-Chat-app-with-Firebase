@@ -22,6 +22,10 @@ class NavigationServices {
     return _navigatorKey;
   }
 
+  void push(MaterialPageRoute route) {
+    _navigatorKey.currentState?.push(route);
+  }
+
   void pushNamed(String routeName) {
     _navigatorKey.currentState?.pushNamed(routeName);
   }
