@@ -78,7 +78,15 @@ class _HomePageState extends State<HomePage> {
               itemCount: users.length,
               itemBuilder: (BuildContext context, int index) {
                 UserProfile user = users[index].data();
-                return ChatTile(userProfile: user, onTap: () {});
+                return ChatTile(
+                    userProfile: user,
+                    onTap: () async {
+                      final bool chatExists = await _databaseService.checkChatExists(_authService.user!.uid, user.uid!);
+                      print(chatExists);
+                      if (!chatExists) {
+                        await _databaseService.createNewChat(_authService.user!.uid, user.uid!);
+                      }
+                    });
               });
         }
         return const Center(

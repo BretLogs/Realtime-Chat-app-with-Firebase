@@ -37,6 +37,6 @@ Future<void> registerServices() async {
 String generateChatID({required String uid1, required String uid2}) {
   List<String> uids = <String>[uid1, uid2];
   uids.sort();
-  String chatID = uids.fold('', (String id, dynamic uid) => '$id$uid');
+  String chatID = uids.fold('', (String id, String uid) => '$id$uid');
   return chatID;
 }

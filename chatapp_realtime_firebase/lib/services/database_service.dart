@@ -24,7 +24,7 @@ class DatabaseService {
           toFirestore: (UserProfile userProfile, _) => userProfile.toJson(),
         );
     _chatsCollection = _firebaseFirestore.collection('chats').withConverter<Chat>(
-        fromFirestore: (DocumentSnapshot<Map<String, dynamic>> snapshots, _) => Chat.fromJson(snapshots.data()!),
+        fromFirestore: (DocumentSnapshot<Map<String, dynamic>> snapshot, _) => Chat.fromJson(snapshot.data()!),
         toFirestore: (Chat chat, _) => chat.toJson());
   }
 
@@ -39,6 +39,7 @@ class DatabaseService {
   Future<bool> checkChatExists(String uid1, String uid2) async {
     String chatID = generateChatID(uid1: uid1, uid2: uid2);
     final DocumentSnapshot<Object?>? result = await _chatsCollection?.doc(chatID).get();
+    print(result);
     if (result != null) {
       return result.exists;
     }

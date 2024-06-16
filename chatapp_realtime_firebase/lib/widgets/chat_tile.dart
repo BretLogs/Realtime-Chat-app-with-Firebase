@@ -10,7 +10,7 @@ class ChatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        onTap;
+        onTap();
       },
       dense: false,
       leading: CircleAvatar(
