@@ -1,4 +1,5 @@
 import 'package:chatapp_realtime_firebase/models/user_profile.dart';
+import 'package:chatapp_realtime_firebase/pages/chat_page.dart';
 import 'package:chatapp_realtime_firebase/services/alert_service.dart';
 import 'package:chatapp_realtime_firebase/services/auth_service.dart';
 import 'package:chatapp_realtime_firebase/services/database_service.dart';
@@ -86,6 +87,11 @@ class _HomePageState extends State<HomePage> {
                       if (!chatExists) {
                         await _databaseService.createNewChat(_authService.user!.uid, user.uid!);
                       }
+                      _navigationServices.push(
+                        MaterialPageRoute(builder: (BuildContext context) {
+                          return ChatPage(chatUser: user);
+                        }),
+                      );
                     });
               });
         }
