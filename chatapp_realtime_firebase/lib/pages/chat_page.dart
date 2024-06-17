@@ -1,6 +1,7 @@
 import 'package:chatapp_realtime_firebase/models/message.dart';
 import 'package:chatapp_realtime_firebase/models/user_profile.dart';
 import 'package:chatapp_realtime_firebase/services/auth_service.dart';
+import 'package:chatapp_realtime_firebase/services/database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -17,11 +18,13 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final GetIt _getIt = GetIt.instance;
   late AuthService _authService;
+  late DatabaseService _databaseService;
   ChatUser? currentUser, otherUser;
   @override
   void initState() {
     super.initState();
     _authService = _getIt.get<AuthService>();
+    _databaseService = _getIt.get<DatabaseService>();
     currentUser = ChatUser(
       id: _authService.user!.uid,
       firstName: _authService.user!.displayName,
@@ -65,5 +68,6 @@ class _ChatPageState extends State<ChatPage> {
       messageType: MessageType.Text,
       sentAt: Timestamp.fromDate(chatMessage.createdAt),
     );
+    await _databaseService.sendChatMessage(currentUser!.id, otherUser!.id, message);
   }
 }
