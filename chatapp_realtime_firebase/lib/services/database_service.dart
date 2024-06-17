@@ -52,4 +52,14 @@ class DatabaseService {
     final Chat chat = Chat(id: chatID, participants: <String>[uid1, uid2], messages: <Message>[]);
     await docRef.set(chat);
   }
+
+  Future<void> sendChatMessage(String uid1, String uid2, Message message) async {
+    String chatID = generateChatID(uid1: uid1, uid2: uid2);
+    final DocumentReference<Object?> docRef = _chatsCollection!.doc(chatID);
+    await docRef.update(<Object, Object?>{
+      'messages': FieldValue.arrayUnion(
+        <Map<String, dynamic>>[message.toJson()],
+      ),
+    });
+  }
 }
